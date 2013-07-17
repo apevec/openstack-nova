@@ -2,7 +2,7 @@
 
 Name:             openstack-nova
 Version:          2013.2
-Release:          0.5.h1%{?dist}
+Release:          0.6.b1%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -865,7 +865,7 @@ fi
 %endif
 
 %changelog
-* Mon Jun 24 2013 Nikola Đipanov <ndipanov@redhat.com> - 2013.2-0.5.h1
+* Mon Jun 24 2013 Nikola Đipanov <ndipanov@redhat.com> - 2013.2-0.6.b1
 - Remove requirements file to be more flexible with dep versions
 
 * Mon Jun 24 2013 Nikola Đipanov<ndipanov@redhat.com> - 2013.2-0.4.h1
