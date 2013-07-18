@@ -47,6 +47,8 @@ Source20:         nova-sudoers
 Source21:         nova-polkit.pkla
 Source22:         nova-ifc-template
 
+Source30:         openstack-nova-novncproxy.sysconfig
+
 #
 # patches_base=2013.2.b1
 #
@@ -554,6 +556,10 @@ install -p -D -m 644 etc/nova/rootwrap.d/* %{buildroot}%{_datarootdir}/nova/root
 install -d -m 755 %{buildroot}%{_sysconfdir}/polkit-1/localauthority/50-local.d
 install -p -D -m 644 %{SOURCE21} %{buildroot}%{_sysconfdir}/polkit-1/localauthority/50-local.d/50-nova.pkla
 
+# Install novncproxy service options template
+install -d %{buildroot}%{_sysconfdir}/sysconfig
+install -p -m 0644 %{SOURCE30} %{buildroot}%{_sysconfdir}/sysconfig/openstack-nova-novncproxy
+
 # Remove unneeded in production stuff
 rm -f %{buildroot}%{_bindir}/nova-debug
 rm -fr %{buildroot}%{python_sitelib}/nova/tests/
@@ -852,6 +858,7 @@ fi
 %{_bindir}/nova-novncproxy
 %{_initrddir}/openstack-nova-novncproxy
 %{_datarootdir}/nova/openstack-nova-novncproxy.upstart
+%config(noreplace) %{_sysconfdir}/sysconfig/openstack-nova-novncproxy
 
 %files -n python-nova
 %defattr(-,root,root,-)
@@ -865,7 +872,10 @@ fi
 %endif
 
 %changelog
-* Mon Jun 24 2013 Nikola Đipanov <ndipanov@redhat.com> - 2013.2-0.6.b1
+* Wed Jul 17 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.6.b1
+- Upgrade /etc/sysconfig/openstack-nova-novncproxy correctly
+
+* Mon Jun 24 2013 Nikola Đipanov <ndipanov@redhat.com> - 2013.2-0.5.h1
 - Remove requirements file to be more flexible with dep versions
 
 * Mon Jun 24 2013 Nikola Đipanov<ndipanov@redhat.com> - 2013.2-0.4.h1
