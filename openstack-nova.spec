@@ -2,7 +2,7 @@
 
 Name:             openstack-nova
 Version:          2013.2
-Release:          0.15.b3%{?dist}
+Release:          0.17.b3%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -386,6 +386,7 @@ Requires:         python-novaclient
 Requires:         python-oslo-config
 Requires:         python-pyasn1
 Requires:         python-six
+Requires:         python-babel
 
 %description -n   python-nova
 OpenStack Compute (codename Nova) is open source software designed to
@@ -922,6 +923,9 @@ fi
 %endif
 
 %changelog
+* Mon Sep 09 2013 Dan Prince <dprince@redhat.com> - 2013.2-0.17.b3
+- Add dependency on python-babel
+
 * Mon Sep 09 2013 Nikola Đipanov <ndipanov@redhat.com> - 2013.2-0.15.b3
 - Update to Havana milestone 3
 
