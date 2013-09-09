@@ -2,13 +2,13 @@
 
 Name:             openstack-nova
 Version:          2013.2
-Release:          0.14.b2%{?dist}
+Release:          0.15.b3%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              http://openstack.org/projects/compute/
-Source0:	  https://launchpad.net/nova/havana/havana-2/+download/nova-%{version}.b2.tar.gz
+Source0:	  https://launchpad.net/nova/havana/havana-3/+download/nova-%{version}.b3.tar.gz
 
 Source1:          nova-dist.conf
 Source6:          nova.logrotate
@@ -50,7 +50,7 @@ Source22:         nova-ifc-template
 Source30:         openstack-nova-novncproxy.sysconfig
 
 #
-# patches_base=2013.2.b2
+# patches_base=2013.2.b3
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 Patch0002: 0002-remove-runtime-dep-on-python-pbr.patch
@@ -416,7 +416,7 @@ This package contains documentation files for nova.
 %endif
 
 %prep
-%setup -q -n nova-%{version}.b2
+%setup -q -n nova-%{version}.b3
 
 %patch0001 -p1
 %patch0002 -p1
@@ -922,6 +922,9 @@ fi
 %endif
 
 %changelog
+* Mon Sep 09 2013 Nikola Đipanov <ndipanov@redhat.com> - 2013.2-0.15.b3
+- Update to Havana milestone 3
+
 * Tue Aug 27 2013 Nikola Đipanov <ndipanov@redhat.com> - 2013.2-0.14.b2
 - Fix the tarball download link (SOURCE0)
 
