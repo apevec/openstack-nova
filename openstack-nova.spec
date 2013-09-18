@@ -2,7 +2,7 @@
 
 Name:             openstack-nova
 Version:          2013.2
-Release:          0.20.b3%{?dist}
+Release:          0.21.b3%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -385,7 +385,7 @@ Requires:         python-webob1.0
 Requires:         python-glanceclient >= 1:0
 Requires:         python-neutronclient
 Requires:         python-novaclient
-Requires:         python-oslo-config
+Requires:         python-oslo-config >= 1:1.2.0
 Requires:         python-pyasn1
 Requires:         python-six
 Requires:         python-babel
@@ -927,6 +927,9 @@ fi
 %endif
 
 %changelog
+* Wed Sep 18 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-0.21.b3
+- Depend on python-oslo-config >= 1:1.2.0 so it is upgraded automatically
+
 * Thu Sep 12 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.20.b3
 - Depend on genisoimage to support creating guest config drives
 
