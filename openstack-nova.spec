@@ -2,7 +2,7 @@
 
 Name:             openstack-nova
 Version:          2013.2
-Release:          0.21.b3%{?dist}
+Release:          0.21.b3%{?dist}.1
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -389,7 +389,7 @@ Requires:         python-oslo-config >= 1:1.2.0
 Requires:         python-pyasn1
 Requires:         python-six
 Requires:         python-babel
-Requires:         python-jinja2
+Requires:         python-jinja2-26
 
 %description -n   python-nova
 OpenStack Compute (codename Nova) is open source software designed to
@@ -927,6 +927,9 @@ fi
 %endif
 
 %changelog
+* Tue Oct 01 2013 Lon Hohberger <lhh@redhat.com> - 2013.2-0.21.b3.el6ost.1
+- Fix Jinja2 Requires line to match what we have
+
 * Wed Sep 18 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-0.21.b3
 - Depend on python-oslo-config >= 1:1.2.0 so it is upgraded automatically
 
