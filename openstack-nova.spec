@@ -2,7 +2,7 @@
 
 Name:             openstack-nova
 Version:          2013.2
-Release:          0.21.b3%{?dist}.1
+Release:          0.22.b3%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -927,6 +927,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 02 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.22.b3
+- Select the parallel installable python-jinja2-26
+
 * Tue Oct 01 2013 Lon Hohberger <lhh@redhat.com> - 2013.2-0.21.b3.el6ost.1
 - Fix Jinja2 Requires line to match what we have
 

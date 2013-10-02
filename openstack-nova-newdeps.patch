@@ -13,7 +13,7 @@ diff --git a/nova/__init__.py b/nova/__init__.py
 index e21bdd7..ee3e322 100644
 --- a/nova/__init__.py
 +++ b/nova/__init__.py
-@@ -24,3 +24,33 @@
+@@ -24,3 +24,34 @@
     :platform: Unix
     :synopsis: Infrastructure-as-a-Service Cloud platform.
  """
@@ -40,6 +40,7 @@ index e21bdd7..ee3e322 100644
 +replace_dist("WebOb >= 1.0")
 +replace_dist("SQLAlchemy >= 0.6.3")
 +replace_dist("Routes >= 1.12.3")
++replace_dist("Jinja2 >= 2.6")
 +
 +replace_dist("PasteDeploy >= 1.5.0")
 +# This hack is needed because replace_dist() results in
