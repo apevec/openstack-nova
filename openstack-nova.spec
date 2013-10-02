@@ -73,6 +73,7 @@ BuildRequires:    python-paste-deploy1.5
 BuildRequires:    python-routes1.12
 BuildRequires:    python-sqlalchemy0.7
 BuildRequires:    python-webob1.0
+BuildRequires:    python-jinja2-26
 
 Requires:         openstack-nova-compute = %{version}-%{release}
 Requires:         openstack-nova-cert = %{version}-%{release}
