@@ -2,7 +2,7 @@
 
 Name:             openstack-nova
 Version:          2013.2
-Release:          0.23.rc1%{?dist}
+Release:          0.25.rc1%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -55,6 +55,7 @@ Source30:         openstack-nova-novncproxy.sysconfig
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 Patch0002: 0002-remove-runtime-dep-on-python-pbr.patch
 Patch0003: 0003-Revert-Use-oslo.sphinx-and-remove-local-copy-of-doc-.patch
+Patch0005: 0005-remove-the-s-option-on-qemu-img-convert.patch
 
 # This is EPEL specific and not upstream
 Patch100:         openstack-nova-newdeps.patch
@@ -425,7 +426,7 @@ This package contains documentation files for nova.
 %patch0001 -p1
 %patch0002 -p1
 %patch0003 -p1
-
+%patch0005 -p1
 # Apply EPEL patch
 %patch100 -p1
 
@@ -926,6 +927,9 @@ fi
 %endif
 
 %changelog
+* Fri Oct 11 2013 Vladan Popovic <vpopovic@redhat.com> - 2013.2-0.25.rc1
+- remove the -s option on qemu-img convert - rhbz#1016896
+
 * Thu Oct 03 2013 Nikola Đipanov <ndipanov@redhat.com> - 2013.2-0.23.rc1
 - Update to Havana rc1
 

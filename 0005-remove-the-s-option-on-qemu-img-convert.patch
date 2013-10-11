@@ -1,0 +1,45 @@
+From ed408475408d86b37f20f0facf54a0c38476e0cb Mon Sep 17 00:00:00 2001
+From: Vladan Popovic <vpopovic@redhat.com>
+Date: Wed, 9 Oct 2013 15:33:33 +0200
+Subject: [PATCH] remove the -s option on qemu-img convert
+
+In RHEL 6.5 the qemu-img-rhev package is missing the -s option which is
+used by the snapshot code. Thi brings back the behaviour in RHOS 3.0
+where the option was ignored.
+
+Resolves rhbz 1016896
+
+Change-Id: I3b39c0c6b86a0cbba68d98121428707cf31408a6
+---
+ nova/tests/virt/libvirt/test_libvirt.py | 2 +-
+ nova/virt/libvirt/utils.py              | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/nova/tests/virt/libvirt/test_libvirt.py b/nova/tests/virt/libvirt/test_libvirt.py
+index 322246f..9bb6663 100644
+--- a/nova/tests/virt/libvirt/test_libvirt.py
++++ b/nova/tests/virt/libvirt/test_libvirt.py
+@@ -6171,7 +6171,7 @@ disk size: 4.4M''', ''))
+     def _do_test_extract_snapshot(self, dest_format='raw', out_format='raw'):
+         self.mox.StubOutWithMock(utils, 'execute')
+         utils.execute('qemu-img', 'convert', '-f', 'qcow2', '-O', out_format,
+-                      '-s', 'snap1', '/path/to/disk/image', '/extracted/snap')
++                      '/path/to/disk/image', '/extracted/snap')
+ 
+         # Start test
+         self.mox.ReplayAll()
+diff --git a/nova/virt/libvirt/utils.py b/nova/virt/libvirt/utils.py
+index 66ff83e..b7591ac 100644
+--- a/nova/virt/libvirt/utils.py
++++ b/nova/virt/libvirt/utils.py
+@@ -545,8 +545,8 @@ def extract_snapshot(disk_path, source_fmt, snapshot_name, out_path, dest_fmt):
+ 
+     # When snapshot name is omitted we do a basic convert, which
+     # is used by live snapshots.
+-    if snapshot_name is not None:
+-        qemu_img_cmd += ('-s', snapshot_name)
++    # if snapshot_name is not None:
++    #     qemu_img_cmd += ('-s', snapshot_name)
+ 
+     qemu_img_cmd += (disk_path, out_path)
+     execute(*qemu_img_cmd)
