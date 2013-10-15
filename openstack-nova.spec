@@ -2,13 +2,13 @@
 
 Name:             openstack-nova
 Version:          2013.2
-Release:          0.25.rc1%{?dist}
+Release:          0.26.rc2%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              http://openstack.org/projects/compute/
-Source0 	  https://launchpad.net/nova/havana/havana-rc1/+download/nova-%{version}.rc1.tar.gz
+Source0 	  https://launchpad.net/nova/havana/havana-rc2/+download/nova-%{version}.rc2.tar.gz
 
 Source1:          nova-dist.conf
 Source6:          nova.logrotate
@@ -50,7 +50,7 @@ Source22:         nova-ifc-template
 Source30:         openstack-nova-novncproxy.sysconfig
 
 #
-# patches_base=2013.2.rc1
+# patches_base=2013.2.rc2
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 Patch0002: 0002-remove-runtime-dep-on-python-pbr.patch
@@ -421,7 +421,7 @@ This package contains documentation files for nova.
 %endif
 
 %prep
-%setup -q -n nova-%{version}.rc1
+%setup -q -n nova-%{version}.rc2
 
 %patch0001 -p1
 %patch0002 -p1
@@ -927,6 +927,9 @@ fi
 %endif
 
 %changelog
+* Tue Oct 15 2013 Nikola Đipanov <ndipanov@redhat.com> - 2013.2-0.26.rc2
+- Update to Havana rc2
+
 * Fri Oct 11 2013 Vladan Popovic <vpopovic@redhat.com> - 2013.2-0.25.rc1
 - remove the -s option on qemu-img convert - rhbz#1016896
 
