@@ -2,7 +2,7 @@
 
 Name:             openstack-nova
 Version:          2013.2
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -72,7 +72,7 @@ BuildRequires:    python-d2to1
 BuildRequires:    python-paste-deploy1.5
 BuildRequires:    python-routes1.12
 BuildRequires:    python-sqlalchemy0.7
-BuildRequires:    python-webob1.0
+BuildRequires:    python-webob1.2
 BuildRequires:    python-jinja2-26
 
 Requires:         openstack-nova-compute = %{version}-%{release}
@@ -381,7 +381,7 @@ Requires:         python-migrate
 
 Requires:         python-paste-deploy1.5
 Requires:         python-routes1.12
-Requires:         python-webob1.0
+Requires:         python-webob1.2
 
 Requires:         python-glanceclient >= 1:0
 Requires:         python-neutronclient
@@ -927,6 +927,9 @@ fi
 %endif
 
 %changelog
+* Fri Oct 18 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-2
+- require webob1.2
+
 * Thu Oct 17 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-1
 - Update to Havana final
 
