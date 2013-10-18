@@ -929,6 +929,7 @@ fi
 %changelog
 * Fri Oct 18 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-2
 - require webob1.2
+- remove signing_dir from nova-dist.conf to use the default
 
 * Thu Oct 17 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-1
 - Update to Havana final
