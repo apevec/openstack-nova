@@ -2,7 +2,7 @@
 
 Name:             openstack-nova
 Version:          2013.2
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -148,6 +148,7 @@ Requires:         lvm2
 Requires:         python-cinderclient
 Requires(pre):    qemu-kvm
 Requires:         genisoimage
+Requires:         bridge-utils
 
 %description compute
 OpenStack Compute (codename Nova) is open source software designed to
@@ -927,6 +928,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 23 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-3
+- Require bridge-utils on nova-compute package - rhbz#1009065
+
 * Fri Oct 18 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-2
 - require webob1.2
 - remove signing_dir from nova-dist.conf to use the default
