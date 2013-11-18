@@ -2,7 +2,7 @@
 
 Name:             openstack-nova
 Version:          2013.2
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -55,6 +55,7 @@ Source30:         openstack-nova-novncproxy.sysconfig
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 Patch0002: 0002-remove-runtime-dep-on-python-pbr.patch
 Patch0003: 0003-Revert-Use-oslo.sphinx-and-remove-local-copy-of-doc-.patch
+Patch0004: 0004-Pass-volume_api-to-get_encryption_metadata.patch
 Patch0005: 0005-remove-the-s-option-on-qemu-img-convert.patch
 
 # This is EPEL specific and not upstream
@@ -427,7 +428,9 @@ This package contains documentation files for nova.
 %patch0001 -p1
 %patch0002 -p1
 %patch0003 -p1
+%patch0004 -p1
 %patch0005 -p1
+
 # Apply EPEL patch
 %patch100 -p1
 
@@ -928,6 +931,9 @@ fi
 %endif
 
 %changelog
+* Tue Nov 18 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-4
+- Remove cert and scheduler hard dependency on cinderclient - rhbz#1031679
+
 * Wed Oct 23 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-3
 - Require bridge-utils on nova-compute package - rhbz#1009065
 
