@@ -57,6 +57,7 @@ Patch0002: 0002-remove-runtime-dep-on-python-pbr.patch
 Patch0003: 0003-Revert-Use-oslo.sphinx-and-remove-local-copy-of-doc-.patch
 Patch0004: 0004-Pass-volume_api-to-get_encryption_metadata.patch
 Patch0005: 0005-remove-the-s-option-on-qemu-img-convert.patch
+Patch0006: 0006-ensure-we-don-t-boot-oversized-images.patch
 
 # This is EPEL specific and not upstream
 Patch100:         openstack-nova-newdeps.patch
@@ -431,6 +432,7 @@ This package contains documentation files for nova.
 %patch0003 -p1
 %patch0004 -p1
 %patch0005 -p1
+%patch0006 -p1
 
 # Apply EPEL patch
 %patch100 -p1
@@ -935,6 +937,7 @@ fi
 * Tue Nov 18 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-4
 - Remove cert and scheduler hard dependency on cinderclient - rhbz#1031679
 - Require ipmitool for baremetal driver - rhbz#1022243
+- Ensure we don't boot oversized images (CVE-2013-0326)
 
 * Wed Oct 23 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-3
 - Require bridge-utils on nova-compute package - rhbz#1009065
