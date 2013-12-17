@@ -1,16 +1,17 @@
-From 17ce490483d8da9cb2ff859c07ff88f809e335d3 Mon Sep 17 00:00:00 2001
-From: Nikola Dipanov <ndipanov@redhat.com>
-Date: Mon, 10 Jun 2013 10:24:55 +0200
-Subject: [PATCH] openstack-nova-new-deps
+From 7ac546b1ce85357afecaccbdbdaab7eaeac46787 Mon Sep 17 00:00:00 2001
+From: Xavier Queralt <xqueralt@redhat.com>
+Date: Mon, 16 Dec 2013 12:33:13 +0100
+Subject: [PATCH] Use updated parallel install versions of epel package
 
-Change-Id: I06793fee68ef2847899aa712d3f10aa2fd3887e9
+Use SQLAlchemy >= 0.7.8 WebOb >= 1.2 Routes >= 1.12.3 PasteDeploy >= 1.5.0
+and depend on the parallel installable versions of these packages to satisfy
+those requirements.
 ---
- nova/__init__.py                |   30 ++++++++++++++++++++++++++++++
- nova/db/sqlalchemy/migration.py |    8 +++++++-
- 2 files changed, 37 insertions(+), 1 deletion(-)
+ nova/__init__.py | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
 diff --git a/nova/__init__.py b/nova/__init__.py
-index e21bdd7..ee3e322 100644
+index e21bdd7..992d6de 100644
 --- a/nova/__init__.py
 +++ b/nova/__init__.py
 @@ -24,3 +24,34 @@
@@ -48,25 +49,3 @@ index e21bdd7..ee3e322 100644
 +# TODO: See can we get pkg_resources to do the right thing directly
 +import paste
 +paste.__path__.insert(0, paste.__path__.pop(-1))
-diff --git a/nova/db/sqlalchemy/migration.py b/nova/db/sqlalchemy/migration.py
-index 14758ab..a9727e3 100644
---- a/nova/db/sqlalchemy/migration.py
-+++ b/nova/db/sqlalchemy/migration.py
-@@ -52,7 +52,13 @@ if (not hasattr(migrate, '__version__') or
- 
- 
- # NOTE(jkoelker) Delay importing migrate until we are patched
--from migrate import exceptions as versioning_exceptions
-+try:
-+    # Try the more specific path first (migrate <= 0.6)
-+    from migrate.versioning import exceptions as versioning_exceptions
-+except ImportError:
-+    # Use the newer path (migrate >= 0.7)
-+    from migrate import exceptions as versioning_exceptions
-+
- from migrate.versioning import api as versioning_api
- from migrate.versioning.repository import Repository
- 
--- 
-1.7.9.5
-

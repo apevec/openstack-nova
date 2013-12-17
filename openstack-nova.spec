@@ -1,8 +1,8 @@
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 
 Name:             openstack-nova
-Version:          2013.2
-Release:          5%{?dist}
+Version:          2013.2.1
+Release:          1%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -50,21 +50,19 @@ Source22:         nova-ifc-template
 Source30:         openstack-nova-novncproxy.sysconfig
 
 #
-# patches_base=2013.2
+# patches_base=2013.2.1
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 Patch0002: 0002-remove-runtime-dep-on-python-pbr.patch
-Patch0003: 0003-Revert-Use-oslo.sphinx-and-remove-local-copy-of-doc-.patch
-Patch0004: 0004-Pass-volume_api-to-get_encryption_metadata.patch
-Patch0005: 0005-remove-the-s-option-on-qemu-img-convert.patch
-Patch0006: 0006-ensure-we-don-t-boot-oversized-images.patch
+Patch0003: 0003-Use-updated-parallel-install-versions-of-epel-packag.patch
+Patch0004: 0004-Remove-unnecessary-steps-for-cold-snapshots.patch
 
 # This is EPEL specific and not upstream
-Patch100:         openstack-nova-newdeps.patch
 
 BuildArch:        noarch
 BuildRequires:    intltool
 BuildRequires:    python-sphinx10
+BuildRequires:    python-oslo-sphinx
 BuildRequires:    python-setuptools
 BuildRequires:    python-netaddr
 BuildRequires:    openstack-utils
@@ -431,11 +429,8 @@ This package contains documentation files for nova.
 %patch0002 -p1
 %patch0003 -p1
 %patch0004 -p1
-%patch0005 -p1
-%patch0006 -p1
 
 # Apply EPEL patch
-%patch100 -p1
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
@@ -934,10 +929,14 @@ fi
 %endif
 
 %changelog
+* Mon Dec 16 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2.1-1
+- Update to stable/havana 2013.2.1 release
+- Add python-oslo-sphinx to build requirements
+
 * Tue Dec 03 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-5
 - Fix the CVE number references from the latest change
 
-* Tue Nov 18 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-4
+* Mon Nov 18 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-4
 - Remove cert and scheduler hard dependency on cinderclient - rhbz#1031679
 - Require ipmitool for baremetal driver - rhbz#1022243
 - Ensure we don't boot oversized images (CVE-2013-4463 and CVE-2013-2096)
@@ -1004,7 +1003,7 @@ fi
 * Wed Aug 07 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2-0.9.b2
 - Create a nova-dist.conf file with default values under /usr/share
 
-* Sun Jul 22 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.8.b2
+* Mon Jul 22 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.8.b2
 - Update to Havana milestone 2
 
 * Wed Jul 17 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.6.b1
@@ -1092,7 +1091,7 @@ fi
 * Tue Oct 30 2012 Pádraig Brady <pbrady@redhat.com> - 2012.2-2
 - Add support for python-migrate-0.6
 
-* Thu Oct 12 2012 Pádraig Brady <pbrady@redhat.com> - 2012.2-1
+* Fri Oct 12 2012 Pádraig Brady <pbrady@redhat.com> - 2012.2-1
 - Update to folsom final
 
 * Fri Oct 12 2012 Nikola Dipanov <ndipanov@redhat.com> - 2012.1.3-1
@@ -1119,7 +1118,7 @@ fi
 * Mon Aug  6 2012 Pádraig Brady <P@draigBrady.com> - 2012.1.1-12
 - Fix group installation issue introduced in 2012.1.1-10
 
-* Sun Jul 30 2012 Pádraig Brady <P@draigBrady.com> - 2012.1.1-11
+* Mon Jul 30 2012 Pádraig Brady <P@draigBrady.com> - 2012.1.1-11
 - Update from stable upstream including...
 - Fix metadata file injection with xen
 - Fix affinity filters when hints is None
@@ -1176,7 +1175,7 @@ fi
 - fix the encoding of the dns_domains table (requires a db sync)
 - fix a crash due to a nova services startup race (#825051)
 
-* Wed Jun 08 2012 Pádraig Brady <P@draigBrady.com> - 2012.1-10
+* Fri Jun 08 2012 Pádraig Brady <P@draigBrady.com> - 2012.1-10
 - Enable libguestfs image inspection
 
 * Wed Jun 06 2012 Pádraig Brady <P@draigBrady.com> - 2012.1-9
@@ -1198,7 +1197,7 @@ fi
 * Tue May 01 2012 Pádraig Brady <P@draigBrady.com> - 2012.1-5
 - Start the services later in the boot sequence
 
-* Wed Apr 27 2012 Pádraig Brady <P@draigBrady.com> - 2012.1-4
+* Fri Apr 27 2012 Pádraig Brady <P@draigBrady.com> - 2012.1-4
 - Fix install issues with new Essex init scripts
 
 * Wed Apr 25 2012 Pádraig Brady <P@draigBrady.com> - 2012.1-3
@@ -1214,7 +1213,7 @@ fi
 * Fri Apr 13 2012 Pádraig Brady <P@draigBrady.com> - 2012.1-1
 - Update to Essex release
 
-* Mon Apr 01 2012 Pádraig Brady <P@draigBrady.com> - 2012.1-0.1.rc1
+* Sun Apr 01 2012 Pádraig Brady <P@draigBrady.com> - 2012.1-0.1.rc1
 - Update to Essex release candidate 1
 
 * Thu Mar 29 2012 Pádraig Brady <P@draigBrady.com> - 2011.3.1-8
@@ -1224,7 +1223,7 @@ fi
 - CVE-2012-1585 - Long server names grow nova-api log files significantly
 - Resolves: rhbz#808148
 
-* Mon Mar  6 2012 Pádraig Brady <P@draigBrady.com> - 2011.3.1-5
+* Tue Mar 06 2012 Pádraig Brady <P@draigBrady.com> - 2011.3.1-5
 - Require bridge-utils
 
 * Mon Feb 13 2012 Pádraig Brady <P@draigBrady.com> - 2011.3.1-4
@@ -1275,7 +1274,7 @@ fi
 - Don't require the fuse group (#770927)
 - Require the fuse package (to avoid #767852)
 
-* Tue Dec 14 2011 Pádraig Brady <P@draigBrady.com> - 2011.3-13
+* Wed Dec 14 2011 Pádraig Brady <P@draigBrady.com> - 2011.3-13
 - Sanitize EC2 manifests and image tarballs (#767236, CVE 2011-4596)
 - update libguestfs support
 
