@@ -2,7 +2,7 @@
 
 Name:             openstack-nova
 Version:          2013.2.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -56,6 +56,7 @@ Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 Patch0002: 0002-remove-runtime-dep-on-python-pbr.patch
 Patch0003: 0003-Use-updated-parallel-install-versions-of-epel-packag.patch
 Patch0004: 0004-Remove-unnecessary-steps-for-cold-snapshots.patch
+Patch0005: 0005-libvirt-Fix-root-disk-leak-in-live-mig.patch
 
 # This is EPEL specific and not upstream
 
@@ -429,6 +430,7 @@ This package contains documentation files for nova.
 %patch0002 -p1
 %patch0003 -p1
 %patch0004 -p1
+%patch0005 -p1
 
 # Apply EPEL patch
 
@@ -929,6 +931,9 @@ fi
 %endif
 
 %changelog
+* Fri Jan 24 2014 Xavier Queralt <xqueralt@@redhat.com> - 2013.2.1-2
+- Fix root disk leak in live migration - CVE-2013-7130
+
 * Mon Dec 16 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2.1-1
 - Update to stable/havana 2013.2.1 release
 - Add python-oslo-sphinx to build requirements
