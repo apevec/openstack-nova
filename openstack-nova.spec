@@ -2,7 +2,7 @@
 
 Name:             openstack-nova
 Version:          2013.2.1
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -931,6 +931,9 @@ fi
 %endif
 
 %changelog
+* Mon Jan 27 2014 Xavier Queralt <xqueralt@@redhat.com> - 2013.2.1-3
+- Fix the patch for CVE-2013-7130 which was not backported properly
+
 * Fri Jan 24 2014 Xavier Queralt <xqueralt@@redhat.com> - 2013.2.1-2
 - Fix root disk leak in live migration - CVE-2013-7130
 
