@@ -1,8 +1,8 @@
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 
 Name:             openstack-nova
-Version:          2013.2.1
-Release:          3%{?dist}
+Version:          2013.2.2
+Release:          1%{?dist}
 Summary:          OpenStack Compute (nova)
 
 Group:            Applications/System
@@ -50,15 +50,12 @@ Source22:         nova-ifc-template
 Source30:         openstack-nova-novncproxy.sysconfig
 
 #
-# patches_base=2013.2.1
+# patches_base=2013.2.2
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 Patch0002: 0002-remove-runtime-dep-on-python-pbr.patch
 Patch0003: 0003-Use-updated-parallel-install-versions-of-epel-packag.patch
 Patch0004: 0004-Remove-unnecessary-steps-for-cold-snapshots.patch
-Patch0005: 0005-libvirt-Fix-root-disk-leak-in-live-mig.patch
-
-# This is EPEL specific and not upstream
 
 BuildArch:        noarch
 BuildRequires:    intltool
@@ -430,9 +427,6 @@ This package contains documentation files for nova.
 %patch0002 -p1
 %patch0003 -p1
 %patch0004 -p1
-%patch0005 -p1
-
-# Apply EPEL patch
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
@@ -931,10 +925,13 @@ fi
 %endif
 
 %changelog
-* Mon Jan 27 2014 Xavier Queralt <xqueralt@@redhat.com> - 2013.2.1-3
+* Fri Feb 14 2014 Xavier Queralt <xqueralt@redhat.com> - 2013.2.2-1
+- Update to stable/havana 2013.2.2 release
+
+* Mon Jan 27 2014 Xavier Queralt <xqueralt@redhat.com> - 2013.2.1-3
 - Fix the patch for CVE-2013-7130 which was not backported properly
 
-* Fri Jan 24 2014 Xavier Queralt <xqueralt@@redhat.com> - 2013.2.1-2
+* Fri Jan 24 2014 Xavier Queralt <xqueralt@redhat.com> - 2013.2.1-2
 - Fix root disk leak in live migration - CVE-2013-7130
 
 * Mon Dec 16 2013 Xavier Queralt <xqueralt@redhat.com> - 2013.2.1-1

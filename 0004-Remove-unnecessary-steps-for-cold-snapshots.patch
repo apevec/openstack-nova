@@ -1,4 +1,4 @@
-From 1c0ecb318049e451eb8e1f6a012dfd144e51d53a Mon Sep 17 00:00:00 2001
+From 7ba64ec3df7a0792f3bab58c786ea532375b8bd1 Mon Sep 17 00:00:00 2001
 From: Vladan Popovic <vpopovic@redhat.com>
 Date: Thu, 17 Oct 2013 07:41:20 -0400
 Subject: [PATCH] Remove unnecessary steps for cold snapshots
@@ -68,10 +68,10 @@ index 4799837..1872922 100644
  
  
 diff --git a/nova/tests/virt/libvirt/test_libvirt.py b/nova/tests/virt/libvirt/test_libvirt.py
-index 6410be3..358662b 100644
+index dd7bda9..f27d0d0 100644
 --- a/nova/tests/virt/libvirt/test_libvirt.py
 +++ b/nova/tests/virt/libvirt/test_libvirt.py
-@@ -6262,12 +6262,12 @@ disk size: 4.4M''', ''))
+@@ -6395,12 +6395,12 @@ disk size: 4.4M''', ''))
      def _do_test_extract_snapshot(self, dest_format='raw', out_format='raw'):
          self.mox.StubOutWithMock(utils, 'execute')
          utils.execute('qemu-img', 'convert', '-f', 'qcow2', '-O', out_format,
@@ -87,10 +87,10 @@ index 6410be3..358662b 100644
      def test_extract_snapshot_raw(self):
          self._do_test_extract_snapshot()
 diff --git a/nova/virt/libvirt/driver.py b/nova/virt/libvirt/driver.py
-index 5c05307..077c79b 100644
+index 5043ab3..63a8b1b 100644
 --- a/nova/virt/libvirt/driver.py
 +++ b/nova/virt/libvirt/driver.py
-@@ -1372,7 +1372,6 @@ class LibvirtDriver(driver.ComputeDriver):
+@@ -1384,7 +1384,6 @@ class LibvirtDriver(driver.ComputeDriver):
                  virt_dom.managedSave(0)
  
          snapshot_backend = self.image_backend.snapshot(disk_path,
@@ -98,7 +98,7 @@ index 5c05307..077c79b 100644
                  image_type=source_format)
  
          if live_snapshot:
-@@ -1381,7 +1380,6 @@ class LibvirtDriver(driver.ComputeDriver):
+@@ -1393,7 +1392,6 @@ class LibvirtDriver(driver.ComputeDriver):
          else:
              LOG.info(_("Beginning cold snapshot process"),
                       instance=instance)
@@ -106,7 +106,7 @@ index 5c05307..077c79b 100644
  
          update_task_state(task_state=task_states.IMAGE_PENDING_UPLOAD)
          snapshot_directory = CONF.libvirt_snapshots_directory
-@@ -1398,8 +1396,6 @@ class LibvirtDriver(driver.ComputeDriver):
+@@ -1409,8 +1407,6 @@ class LibvirtDriver(driver.ComputeDriver):
                  else:
                      snapshot_backend.snapshot_extract(out_path, image_format)
              finally:
@@ -115,7 +115,7 @@ index 5c05307..077c79b 100644
                  new_dom = None
                  # NOTE(dkang): because previous managedSave is not called
                  #              for LXC, _create_domain must not be called.
-@@ -1492,7 +1488,7 @@ class LibvirtDriver(driver.ComputeDriver):
+@@ -1513,7 +1509,7 @@ class LibvirtDriver(driver.ComputeDriver):
  
          # Convert the delta (CoW) image with a backing file to a flat
          # image with no backing file.
