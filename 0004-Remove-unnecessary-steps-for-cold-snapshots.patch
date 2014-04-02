@@ -1,4 +1,4 @@
-From 7ba64ec3df7a0792f3bab58c786ea532375b8bd1 Mon Sep 17 00:00:00 2001
+From 8eb6b7bf2a2913d2976141e0113d5c4f67de9c24 Mon Sep 17 00:00:00 2001
 From: Vladan Popovic <vpopovic@redhat.com>
 Date: Thu, 17 Oct 2013 07:41:20 -0400
 Subject: [PATCH] Remove unnecessary steps for cold snapshots
@@ -68,10 +68,10 @@ index 4799837..1872922 100644
  
  
 diff --git a/nova/tests/virt/libvirt/test_libvirt.py b/nova/tests/virt/libvirt/test_libvirt.py
-index dd7bda9..f27d0d0 100644
+index db6f9d7..637922f 100644
 --- a/nova/tests/virt/libvirt/test_libvirt.py
 +++ b/nova/tests/virt/libvirt/test_libvirt.py
-@@ -6395,12 +6395,12 @@ disk size: 4.4M''', ''))
+@@ -6508,12 +6508,12 @@ disk size: 4.4M''', ''))
      def _do_test_extract_snapshot(self, dest_format='raw', out_format='raw'):
          self.mox.StubOutWithMock(utils, 'execute')
          utils.execute('qemu-img', 'convert', '-f', 'qcow2', '-O', out_format,
@@ -87,7 +87,7 @@ index dd7bda9..f27d0d0 100644
      def test_extract_snapshot_raw(self):
          self._do_test_extract_snapshot()
 diff --git a/nova/virt/libvirt/driver.py b/nova/virt/libvirt/driver.py
-index 5043ab3..63a8b1b 100644
+index 92be53c..557870c 100644
 --- a/nova/virt/libvirt/driver.py
 +++ b/nova/virt/libvirt/driver.py
 @@ -1384,7 +1384,6 @@ class LibvirtDriver(driver.ComputeDriver):
@@ -125,10 +125,10 @@ index 5043ab3..63a8b1b 100644
  
      def _volume_snapshot_update_status(self, context, snapshot_id, status):
 diff --git a/nova/virt/libvirt/imagebackend.py b/nova/virt/libvirt/imagebackend.py
-index e900789..57c1910 100644
+index ed11c90..edd1df1 100644
 --- a/nova/virt/libvirt/imagebackend.py
 +++ b/nova/virt/libvirt/imagebackend.py
-@@ -223,25 +223,17 @@ class Image(object):
+@@ -228,15 +228,9 @@ class Image(object):
                                'size': size})
              raise exception.InstanceTypeDiskTooSmall()
  
@@ -141,6 +141,11 @@ index e900789..57c1910 100644
 -    def snapshot_delete(self):
 -        raise NotImplementedError()
 -
+     def _get_driver_format(self):
+         return self.driver_format
+ 
+@@ -298,14 +292,12 @@ class Image(object):
+ 
  
  class Raw(Image):
 -    def __init__(self, instance=None, disk_name=None, path=None,
@@ -153,9 +158,9 @@ index e900789..57c1910 100644
                                    disk_name))
 -        self.snapshot_name = snapshot_name
          self.preallocate = CONF.preallocate_images != 'none'
-         self.correct_format()
- 
-@@ -271,25 +263,17 @@ class Raw(Image):
+         self.disk_info_path = os.path.join(os.path.dirname(self.path),
+                                            'disk.info')
+@@ -340,25 +332,17 @@ class Raw(Image):
                      copy_raw_image(base, self.path, size)
          self.correct_format()
  
@@ -180,9 +185,9 @@ index e900789..57c1910 100644
                                    disk_name))
 -        self.snapshot_name = snapshot_name
          self.preallocate = CONF.preallocate_images != 'none'
- 
-     def create_image(self, prepare_template, base, size, *args, **kwargs):
-@@ -336,25 +320,18 @@ class Qcow2(Image):
+         self.disk_info_path = os.path.join(os.path.dirname(self.path),
+                                            'disk.info')
+@@ -408,25 +392,18 @@ class Qcow2(Image):
              with fileutils.remove_path_on_error(self.path):
                  copy_qcow2_image(base, self.path, size)
  
@@ -210,7 +215,7 @@ index e900789..57c1910 100644
          super(Lvm, self).__init__("block", "raw", is_block_dev=True)
  
          if path:
-@@ -377,11 +354,6 @@ class Lvm(Image):
+@@ -449,11 +426,6 @@ class Lvm(Image):
          self.sparse = CONF.libvirt_sparse_logical_volumes
          self.preallocate = not self.sparse
  
@@ -222,7 +227,7 @@ index e900789..57c1910 100644
      def _can_fallocate(self):
          return False
  
-@@ -419,25 +391,13 @@ class Lvm(Image):
+@@ -491,25 +463,13 @@ class Lvm(Image):
              with excutils.save_and_reraise_exception():
                  libvirt_utils.remove_logical_volumes(path)
  
@@ -250,7 +255,7 @@ index e900789..57c1910 100644
          super(Rbd, self).__init__("block", "rbd", is_block_dev=True)
          if path:
              try:
-@@ -445,8 +405,7 @@ class Rbd(Image):
+@@ -517,8 +477,7 @@ class Rbd(Image):
              except IndexError:
                  raise exception.InvalidDevicePath(path=path)
          else:
@@ -260,7 +265,7 @@ index e900789..57c1910 100644
          if not CONF.libvirt_images_rbd_pool:
              raise RuntimeError(_('You should specify'
                                   ' libvirt_images_rbd_pool'
-@@ -549,16 +508,10 @@ class Rbd(Image):
+@@ -621,16 +580,10 @@ class Rbd(Image):
          args += self._ceph_args()
          libvirt_utils.import_rbd_image(*args)
  
@@ -277,7 +282,7 @@ index e900789..57c1910 100644
  
  class Backend(object):
      def __init__(self, use_cow):
-@@ -589,12 +542,11 @@ class Backend(object):
+@@ -661,12 +614,11 @@ class Backend(object):
          backend = self.backend(image_type)
          return backend(instance=instance, disk_name=disk_name)
  
