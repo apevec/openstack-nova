@@ -1,14 +1,17 @@
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
+%global release_name havana
+%global project nova
+Source0:        http://tarballs.openstack.org/%{project}/%{project}-stable-%{release_name}.tar.gz
+%global devtag %(tar ztf %{SOURCE0} 2>/dev/null | head -1 | rev | cut -d. -f2 | rev)
+%global devrel %(tar ztf %{SOURCE0} 2>/dev/null | head -1 | rev | cut -d. -f3-5 | cut -d- -f1 | rev)
 
 Name:             openstack-nova
-Version:          2013.2.2
-Release:          1%{?dist}
+Version:          %{devrel}
+Release:          0.1.%{devtag}%{?dist}
 Summary:          OpenStack Compute (nova)
-
 Group:            Applications/System
 License:          ASL 2.0
 URL:              http://openstack.org/projects/compute/
-Source0:          https://launchpad.net/nova/havana/%{version}/+download/nova-%{version}.tar.gz
 
 Source1:          nova-dist.conf
 Source6:          nova.logrotate
@@ -50,7 +53,7 @@ Source22:         nova-ifc-template
 Source30:         openstack-nova-novncproxy.sysconfig
 
 #
-# patches_base=2013.2.2
+# patches_base=gerrit/stable/havana
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 Patch0002: 0002-remove-runtime-dep-on-python-pbr.patch
@@ -421,8 +424,8 @@ This package contains documentation files for nova.
 %endif
 
 %prep
-%setup -q -n nova-%{version}
-
+%setup -q -c -T
+tar --strip-components=1 -zxf %{SOURCE0}
 %patch0001 -p1
 %patch0002 -p1
 %patch0003 -p1
@@ -435,6 +438,7 @@ find nova -name \*.py -exec sed -i '/\/usr\/bin\/env python/{d;q}' {} +
 sed -i '/setuptools_git/d' setup.py
 sed -i s/REDHATNOVAVERSION/%{version}/ nova/version.py
 sed -i s/REDHATNOVARELEASE/%{release}/ nova/version.py
+sed -i 's/^Version: .*/Version: %{version}/' PKG-INFO
 
 # Remove the requirements file so that pbr hooks don't add it 
 # to distutils requiers_dist config
